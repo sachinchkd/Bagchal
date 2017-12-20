@@ -2,7 +2,8 @@
 char isPiece(char s[], int pos);
 int nor_mcheck(int old,int news);
 int capture_move(int old , int news);
-int diff;
+char game_win(int *capt_goats, char s[]);
+
 
 int main()
 {
@@ -10,7 +11,7 @@ int main()
 	int i,on=1;
 	int mid;
 	int diff;
-	int extra_goats=2;
+	int extra_goats=20;
 	int captured_goats=0;
 	_Bool player=0;
 	int oldPos,newPos;
@@ -53,6 +54,7 @@ int main()
 				{
 					s[newPos]=71;
 					extra_goats=extra_goats-1;
+
 					player=1;
 				}
 				else
@@ -355,4 +357,38 @@ int capture_move(int old , int news)
 	}
 
 
+}
+
+char game_win(int *capt_goats,char s[])
+{
+    int t[5],i,j,k;
+    char result;
+    int flag=0;
+	if (*capt_goats >=5)
+        result='G';
+    else
+    {
+        for (i=0;i<24;i++)
+        {
+        if (s[i]=='T')
+        {
+            t[j]=i;
+            j++;
+        }
+        }
+        for (k=0;k<4;k++)
+        {
+            for (i=0;i<24;i++)
+            {
+                if (nor_mcheck(t[k],i))
+                    flag=1;
+                if (capture_move(t[k],i))
+                    flag=1;
+            }
+        }
+        if (flag==1)
+            result='G';
+
+    }
+    return result;
 }
